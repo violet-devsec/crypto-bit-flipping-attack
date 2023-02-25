@@ -10,6 +10,12 @@ def send_msg(s, msg):
     enc = msg.encode()
     s.send(enc)
 
+def encrypt_data(data):
+    padded = pad(data.encode(), 16, style='pkcs7')
+    cipher= AES.new(key, AES.MODE_CBC, iv)
+    enc = cipher.encrypt(padded)
+    return enc.hex()
+
 def main(s):
     send_msg(s, wlcm_msg)
     print('### Server started! ###')
