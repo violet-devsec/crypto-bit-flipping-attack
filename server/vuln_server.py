@@ -16,6 +16,15 @@ def encrypt_data(data):
     enc = cipher.encrypt(padded)
     return enc.hex()
 
+def decrypt_data(encryptedParams):
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    paddedParams = cipher.decrypt(unhexlify(encryptedParams))
+    print(paddedParams)
+    if b'admin&password=goBigDawgs123' in unpad(paddedParams,16,style='pkcs7'):
+        return 1
+    else:
+        return 0
+
 def main(s):
     send_msg(s, wlcm_msg)
     print('### Server started! ###')
