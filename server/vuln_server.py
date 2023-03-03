@@ -4,7 +4,14 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad,unpad
 from Crypto.Random import get_random_bytes
 from binascii import unhexlify
-from secret import FLAG
+#from secret import FLAG
+
+wlcm_msg = '##################  Welcome ####################'
+
+FLAG = '{YOU_ARE_BITFLIP_SERVER_NOW}'
+
+key = get_random_bytes(16)
+iv  = get_random_bytes(16)
 
 def send_msg(s, msg):
     enc = msg.encode()
@@ -54,6 +61,17 @@ def main(s):
     except Exception as e:
         send_msg(s, str(e) + '\n')
         s.close()
+
+    if check:
+        send_msg(s, 'Logged in successfully!\nYour flag is: ' + FLAG)
+        s.close()
+    else:
+        send_msg(s, 'Please try again.'+'\n')
+        s.close()
+
+class TaskHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        main(self.request)
 
 if __name__ == '__main__':
     socketserver.ThreadingTCPServer.allow_resuse_address = True
