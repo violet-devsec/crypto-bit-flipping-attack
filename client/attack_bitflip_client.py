@@ -20,4 +20,9 @@ send_msg(conn, 'admin&parsword=goBigDawgs123\r\n')
 print(conn.recv(4096))
 send_msg(conn, '\r\n')
 
+l_cipher = conn.recv(4096).decode()
+print(l_cipher)
+match = re.match(r'Leaked ciphertext: (.+)', l_cipher)
+print('Ciphertext:', match[1])
+
 conn.close()
