@@ -11,6 +11,8 @@ def send_msg(s, msg):
         enc = msg.encode()
         s.send(enc)
 
+xor = ord('r') ^ ord('s')
+
 conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 conn.connect(('localhost', 3000))
 
@@ -24,5 +26,7 @@ l_cipher = conn.recv(4096).decode()
 print(l_cipher)
 match = re.match(r'Leaked ciphertext: (.+)', l_cipher)
 print('Ciphertext:', match[1])
+
+cipher = match[1]
 
 conn.close()
