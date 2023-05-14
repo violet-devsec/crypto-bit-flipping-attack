@@ -28,5 +28,11 @@ match = re.match(r'Leaked ciphertext: (.+)', l_cipher)
 print('Ciphertext:', match[1])
 
 cipher = match[1]
+cipher = cipher[:16] + hex(int(cipher[16:18],16) ^ xor)[2:] + cipher[18:]
+print('Modified Ciphertext', cipher)
+
+print()
+send_msg(conn, cipher + '\r\n')
+print(conn.recv(4096))
 
 conn.close()
